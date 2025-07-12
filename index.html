@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz Power BI</title>
+  <title>Quiz Power BI avec Timer</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,7 +12,7 @@
       margin: auto;
       background-color: #f4f4f4;
     }
-    h1 {
+    h1, #timer {
       text-align: center;
     }
     .question {
@@ -38,10 +38,16 @@
       text-align: center;
       margin-top: 20px;
     }
+    #timer {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      color: #d40000;
+    }
   </style>
 </head>
 <body>
   <h1>Quiz Power BI</h1>
+  <div id="timer">Temps restant : 60s</div>
 
   <form id="quizForm">
     <div class="question">
@@ -64,7 +70,21 @@
   <div id="resultat"></div>
 
   <script>
+    let tempsRestant = 60; // durée en secondes
+    let timer = setInterval(updateTimer, 1000);
+
+    function updateTimer() {
+      tempsRestant--;
+      document.getElementById("timer").innerHTML = "Temps restant : " + tempsRestant + "s";
+      if (tempsRestant <= 0) {
+        clearInterval(timer);
+        corriger();
+      }
+    }
+
     function corriger() {
+      clearInterval(timer); // stop le timer si l’utilisateur valide avant la fin
+
       var score = 0;
       var total = 2;
 
@@ -78,10 +98,23 @@
         score++;
       }
 
-      document.getElementById("resultat").innerHTML = "Votre score : " + score + " / " + total;
+      let mention = "";
+      if (score == total) {
+        mention = "Excellent !";
+      } else if (score == total - 1) {
+        mention = "Bien.";
+      } else {
+        mention = "À revoir.";
+      }
+
+      document.getElementById("resultat").innerHTML = "Votre score : " + score + " / " + total + "<br>" + mention;
 
       // Facultatif : scroll au résultat
       document.getElementById("resultat").scrollIntoView({behavior: "smooth"});
+
+      // Désactive le formulaire après correction
+      let inputs = document.querySelectorAll('input[type=radio]');
+      inputs.forEach(input => input.disabled = true);
     }
   </script>
 </body>
