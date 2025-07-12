@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Power BI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      text-align: center;
+    }
+    .question {
+      background: white;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+    button {
+      background: #0078d4;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    button:hover {
+      background: #005a9e;
+    }
+    #resultat {
+      font-weight: bold;
+      font-size: 1.2em;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quiz Power BI</h1>
+
+  <form id="quizForm">
+    <div class="question">
+      <p>1. Quelle fonction DAX calcule la somme filtrée selon une condition ?</p>
+      <input type="radio" name="q1" value="SUM"> SUM<br>
+      <input type="radio" name="q1" value="CALCULATE"> CALCULATE<br>
+      <input type="radio" name="q1" value="FILTER"> FILTER<br>
+    </div>
+
+    <div class="question">
+      <p>2. Quel visuel affiche une hiérarchie temporelle ?</p>
+      <input type="radio" name="q2" value="Carte"> Carte<br>
+      <input type="radio" name="q2" value="Graphique en barres"> Graphique en barres<br>
+      <input type="radio" name="q2" value="Graphique en courbes"> Graphique en courbes<br>
+    </div>
+
+    <button type="button" onclick="corriger()">Valider mes réponses</button>
+  </form>
+
+  <div id="resultat"></div>
+
+  <script>
+    function corriger() {
+      var score = 0;
+      var total = 2;
+
+      var q1 = document.querySelector('input[name="q1"]:checked');
+      if(q1 && q1.value == "CALCULATE") {
+        score++;
+      }
+
+      var q2 = document.querySelector('input[name="q2"]:checked');
+      if(q2 && q2.value == "Graphique en courbes") {
+        score++;
+      }
+
+      document.getElementById("resultat").innerHTML = "Votre score : " + score + " / " + total;
+
+      // Facultatif : scroll au résultat
+      document.getElementById("resultat").scrollIntoView({behavior: "smooth"});
+    }
+  </script>
+</body>
+</html>
